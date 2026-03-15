@@ -1,18 +1,20 @@
-# 🏥 MitoCore-AI: Organic Intelligence Engine
-> **"Infinite Medical Knowledge, Minimal Hardware."**
+# 🧠 MitoCore-AI: The Organic Intelligence Engine
+> **"Unlocking High-Performance AI on Consumer Hardware via Bio-Inspired Synergy."**
 
-MitoCore-AI is a biologically-inspired **Mixture-of-Experts (MoE)** platform designed for high-performance medical inference on consumer-grade edge hardware (optimized for **8GB VRAM**). 
+MitoCore-AI is a next-generation **Organic Mixture-of-Experts (MoE)** framework designed to extract maximum intelligence from low-spec hardware (optimized for **8GB VRAM**). 
 
-By leveraging **vLLM-inspired PagedAttention** and a **decentralized "Living Cell" architecture**, MitoCore-AI provides 70B-class medical reasoning density using a swarm of specialized small language models (SLMs).
+![MitoCore-AI Hero Image](file:///D:/Projects/Hospital/platform/mitocore_ai_hero.png)
+
+While initially applied to the medical domain, MitoCore-AI is a generalized technology for **Edge-AI Optimization**. It transforms a collection of Small Language Models (SLMs) into a unified, high-performance organism that rivals monolithic models 10x its size.
 
 ---
 
-## 🧬 Core Philosophy: The Living Cell
-Traditional AI models are static monoliths. MitoCore-AI treats intelligence as an **Organism**:
-- **Matrix (EXAONE-3.5 2.4B):** The linguistic linguistic membrane, specializing in Korean medical nuance.
-- **Synth (Phi-3.5 3.8B):** The logic mitochondrial, enforcing hard-coded clinical reasoning and safety.
-- **Cortex (Llama-3.2 1B):** The neural nucleus, synthesizing multi-agent inputs into strategic advisory.
-- **Echo (Qwen-2.5 1.5B):** The contextual memory, maintaining long-term patient records and data parsing.
+## 🔬 The Technology: Intelligence Density
+MitoCore-AI addresses the "VRAM Wall" by treating model serving as a biological signaling process:
+- **Matrix (Linguistic Hub):** Handles context and linguistic nuance (e.g., EXAONE-3.5 2.4B).
+- **Synth (Logic Core):** Enforces analytical reasoning and safety (e.g., Phi-3.5 3.8B).
+- **Cortex (Executive Nucleus):** Synthesizes multi-agent signals into strategic outputs (e.g., Llama-3.2 1B).
+- **Echo (State Memory):** Manages long-term context using the **Feedback Memory** protocol.
 
 ---
 

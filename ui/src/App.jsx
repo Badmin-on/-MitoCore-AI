@@ -92,90 +92,100 @@ const App = () => {
   };
 
   return (
-    <div className="flex h-screen w-full bg-[#0d0d0d] text-white">
-      {/* Sidebar - GPT Style */}
+    <div className="flex h-screen w-full text-white relative">
+      {/* Ambient Viral Elements */}
+      <div className="ambient-bg" />
+      <div className="glow-orb-top" />
+
+      {/* Sidebar - Pro Style */}
       <aside className="sidebar">
         <button className="new-chat-btn" onClick={() => setMessages([])}>
-          <Plus size={18} />
+          <Plus size={16} />
           <span>New Session</span>
         </button>
         
-        <div className="flex-1 space-y-2 overflow-y-auto">
-          <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-2 mb-4">MitoCore Streams</div>
-          <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl cursor-default border border-white/5">
+        <div className="flex-1 space-y-2 overflow-y-auto mt-2">
+          <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest pl-2 mb-4 opacity-70">Active Streams</div>
+          <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl cursor-default border border-white/5 shadow-inner">
             <MessageSquare size={16} className="text-cyan-400" />
-            <span className="text-sm font-medium truncate">Medical Reasoning Unit</span>
+            <span className="text-sm font-semibold truncate tracking-wide">MitoCore General</span>
           </div>
         </div>
 
         {/* Hardware Footer */}
-        <div className="mt-auto pt-6 border-t border-white/5 space-y-4">
+        <div className="mt-auto pt-6 border-t border-white/5 space-y-5">
           <div className="flex justify-between items-center text-xs">
-            <div className="flex items-center gap-2 text-gray-400">
-              <Cpu size={14} />
+            <div className="flex items-center gap-2 text-gray-400 font-mono tracking-wide">
+              <Cpu size={14} className="text-purple-400" />
               <span>{hwProfile?.gpu_name?.split(' ')[0] || 'GPU'}</span>
             </div>
-            <span className="text-cyan-400 font-bold">{hwProfile?.tier}</span>
+            <span className="text-[10px] font-black tracking-widest text-cyan-400 uppercase border border-cyan-500/30 px-2 py-0.5 rounded-md bg-cyan-500/10">
+              {hwProfile?.tier || 'SYNC'}
+            </span>
           </div>
-          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+          <div className="h-1.5 w-full bg-black/50 rounded-full overflow-hidden border border-white/5">
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: `${(hwProfile?.vram_free_gb / hwProfile?.vram_total_gb) * 100}%` }}
-              className="h-full bg-cyan-500 shadow-[0_0_10px_#06b6d4]"
+              className="h-full bg-cyan-500 shadow-[0_0_15px_#06b6d4]"
             />
           </div>
           <button 
             onClick={() => setShowConfig(!showConfig)}
-            className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-all group"
+            className="w-full flex items-center justify-between p-3.5 rounded-xl hover:bg-white/[0.03] border border-transparent hover:border-white/5 transition-all group"
           >
-            <div className="flex items-center gap-3 text-sm text-gray-400 group-hover:text-white">
+            <div className="flex items-center gap-3 text-sm font-medium text-gray-400 group-hover:text-white">
               <Settings size={16} />
-              <span>Settings</span>
+              <span>Engine Settings</span>
             </div>
-            <Maximize2 size={12} className="text-gray-600" />
+            <Maximize2 size={12} className="text-gray-600 group-hover:text-cyan-400 transition-colors" />
           </button>
         </div>
       </aside>
 
       {/* Main Chat Container */}
       <main className="chat-container">
-        {/* Header Overlay */}
-        <header className="absolute top-0 left-0 right-0 p-4 flex justify-center z-10">
-          <div className="bg-[#050505]/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/5 flex gap-4 text-[10px] font-bold tracking-widest text-gray-500">
-            <span className="flex items-center gap-2">
-              <Server size={12} className="text-green-500" /> LOCAL_ENGINE
+        {/* Superior Glass Header */}
+        <header className="chat-header">
+          <div className="chat-header-pill">
+            <span className="flex items-center gap-2 text-[#94a3b8]">
+              <Server size={12} className="text-green-400" /> 
+              VLLM_ENGINE
             </span>
-            <div className="w-px h-3 bg-white/10" />
+            <div className="w-px h-4 bg-white/10" />
             <span className="flex items-center gap-2 text-cyan-400">
-              <Brain size={12} /> MITOCORE_ORCHESTRATOR
+              <Brain size={12} /> 
+              MITOCORE_ORCHESTRATOR
             </span>
           </div>
         </header>
 
         <div ref={scrollRef} className="messages-stream">
           {messages.length === 0 && !currentStep && (
-            <div className="flex-1 flex flex-col items-center justify-center opacity-20 mt-20">
-              <Brain size={64} className="mb-6" />
-              <h2 className="text-2xl font-black tracking-tighter italic">MITOCORE-AI</h2>
-              <p className="text-xs font-bold tracking-[0.3em] mt-2">ORGANIC INTELLIGENCE FUSION</p>
+            <div className="flex-1 flex flex-col items-center justify-center opacity-40 mt-10">
+              <div className="w-24 h-24 mb-6 relative flex items-center justify-center">
+                 <div className="absolute inset-0 bg-cyan-500 blur-3xl opacity-20 rounded-full" />
+                 <Brain size={48} className="text-white relative z-10 drop-shadow-2xl" />
+              </div>
+              <h2 className="text-3xl font-black tracking-tighter italic" style={{ fontFamily: 'Outfit, sans-serif' }}>MITOCORE-AI</h2>
+              <p className="text-[10px] font-bold tracking-[0.4em] mt-3 text-cyan-100 uppercase">Organic Neural Fusion</p>
             </div>
           )}
 
           {messages.map((msg, idx) => (
-            <div key={idx} className={`message-wrapper ${msg.role === 'assistant' ? 'bg-white/[0.02]' : ''}`}>
+            <div key={idx} className={`message-wrapper ${msg.role === 'assistant' ? 'bg-white/[0.01] border-y border-white/[0.02]' : ''}`}>
               <div className={`message-avatar ${msg.role === 'user' ? 'user-avatar' : 'ai-avatar'}`}>
-                {msg.role === 'user' ? <User size={18} /> : <Brain size={18} className="text-black" />}
+                {msg.role === 'user' ? <User size={16} className="text-gray-400" /> : <Brain size={18} className="text-black" />}
               </div>
               <div className="message-content">
-                <div className="font-mono text-[10px] text-gray-600 uppercase tracking-widest mb-1">
-                  {msg.role === 'user' ? 'Commander Alex' : 'MitoCore Nucleus'}
+                <div className="font-mono text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2 font-bold flex items-center gap-2">
+                  {msg.role === 'user' ? 'Commander' : 'MitoCore Nucleus'}
                 </div>
                 {msg.content}
                 {msg.metadata && (
-                  <div className="mt-4 flex gap-4 text-[9px] font-bold text-gray-500 border-t border-white/5 pt-3">
-                    <span className="text-cyan-500">LATENCY: {msg.metadata.latency}</span>
-                    <span>ENGINE: VLLM_PAGED_ATTENTION</span>
-                    <span className="uppercase">SUITE: {msg.metadata.tier}</span>
+                  <div className="meta-block">
+                    <span className="text-cyan-400 flex items-center gap-2"><Zap size={10}/> {msg.metadata.latency}</span>
+                    <span className="text-purple-400 border-l border-white/10 pl-4">{msg.metadata.tier} SUITE</span>
                   </div>
                 )}
               </div>
@@ -184,22 +194,22 @@ const App = () => {
 
           {/* Neural Progression Status (Inline) */}
           {currentStep && (
-            <div className="message-wrapper bg-white/[0.02]">
+            <div className="message-wrapper">
               <div className="message-avatar ai-avatar">
                 <Brain size={18} className="text-black" />
               </div>
               <div className="message-content">
-                <div className="font-mono text-[10px] text-gray-600 uppercase tracking-widest mb-2">MitoCore Nucleus</div>
+                <div className="font-mono text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-3 font-bold">MitoCore Nucleus</div>
                 <div className="neural-status-indicator">
-                  <div className="status-dot">
-                    <div className={`dot ${currentStep === 'Matrix' ? 'active' : ''} ${currentStep !== 'Matrix' && currentStep !== null ? 'bg-cyan-500' : ''}`} />
-                    <span>MATRIX_SCAN</span>
+                  <div className={`status-dot ${currentStep === 'Matrix' ? 'text-white' : ''}`}>
+                    <div className={`dot ${currentStep === 'Matrix' ? 'active' : ''} ${currentStep !== 'Matrix' && currentStep !== null ? 'bg-cyan-500 shadow-[0_0_8px_cyan]' : ''}`} />
+                    <span>MATRIX_EXTRACT</span>
                   </div>
-                  <div className="status-dot">
-                    <div className={`dot ${currentStep === 'Synth' ? 'active' : ''} ${messages.length > 0 && currentStep === 'Cortex' ? 'bg-cyan-500' : ''}`} />
+                  <div className={`status-dot ${currentStep === 'Synth' ? 'text-white' : ''}`}>
+                    <div className={`dot ${currentStep === 'Synth' ? 'active' : ''} ${messages.length > 0 && currentStep === 'Cortex' ? 'bg-cyan-500 shadow-[0_0_8px_cyan]' : ''}`} />
                     <span>SYNTH_VERIFY</span>
                   </div>
-                  <div className="status-dot">
+                  <div className={`status-dot ${currentStep === 'Cortex' ? 'text-white' : ''}`}>
                     <div className={`dot ${currentStep === 'Cortex' ? 'active' : ''}`} />
                     <span>CORTEX_FUSION</span>
                   </div>
@@ -209,7 +219,7 @@ const App = () => {
           )}
         </div>
 
-        {/* Input Bar - Pill Design */}
+        {/* Premium Input Pill */}
         <footer className="input-container">
           <div className="input-pill">
             <textarea
@@ -226,7 +236,7 @@ const App = () => {
                   handleSend();
                 }
               }}
-              placeholder="Ask MitoCore anything..."
+              placeholder="Inject neural directive..."
               className="chat-input"
             />
             <button 
@@ -234,7 +244,7 @@ const App = () => {
               disabled={!input.trim() || isProcessing}
               className="send-btn"
             >
-              <Send size={18} />
+              <Send size={16} strokeWidth={2.5} />
             </button>
           </div>
         </footer>

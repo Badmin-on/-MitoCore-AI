@@ -79,7 +79,17 @@ MitoCore-AI is based on original research conducted within the Antigravity Hub e
 
 ---
 
-## ⚖️ License & Disclaimer
-This project is an experimental medical AI research tool. It should NOT be used for direct clinical decisions without professional human oversight.
+## ⚖️ License & Open Source Integrity
+MitoCore-AI is released under the **MIT License**. This means the code, architecture, and research methodologies are free to use, modify, and distribute without any restrictions.
+
+### Model Weight Licenses
+The models orchestrated by MitoCore-AI typically follow their respective open-weight licenses:
+- **EXAONE-3.5:** [EXAONE AI Model License Agreement](https://github.com/LG-AI-Research/EXAONE-3.5) (Research/NC)
+- **Phi-3.5:** [MIT License](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct/blob/main/LICENSE) (Permissive)
+- **Llama-3.2:** [Llama 3.2 Community License](https://llama.meta.com/llama3/license/) (Permissive)
+- **Qwen-2.5:** [Apache 2.0](https://github.com/QwenLM/Qwen2.5) (Permissive)
+
+MitoCore-AI is committed to the **Democratization of AI**, ensuring that high-performance intelligence remains a public and personal asset.
+
 **Author:** Alex
 **Hub:** Antigravity (Advanced Agentic Architecture)

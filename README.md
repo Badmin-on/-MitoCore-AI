@@ -3,7 +3,7 @@
 
 MitoCore-AI is a next-generation **Organic Mixture-of-Experts (MoE)** framework designed to extract maximum intelligence from low-spec hardware (optimized for **8GB VRAM**). 
 
-![MitoCore-AI Hero Image](file:///D:/Projects/Hospital/platform/mitocore_ai_hero.png)
+![MitoCore-AI Hero Image](./mitocore_ai_hero.png)
 
 While initially applied to the medical domain, MitoCore-AI is a generalized technology for **Edge-AI Optimization**. It transforms a collection of Small Language Models (SLMs) into a unified, high-performance organism that rivals monolithic models 10x its size.
 
@@ -46,6 +46,15 @@ cd MitoCore-AI
 ```powershell
 ./start_hospital.ps1
 ```
+
+---
+
+## 📑 Research & Publications
+MitoCore-AI is based on original research conducted within the Antigravity Hub ecosystem. For detailed technical methodologies, benchmarks, and scaling dynamics, refer to the following:
+
+- **[MitoCore-AI Research Paper](./research/MitoCore_AI_Research_Paper.md):** *Living AI Cell: A Biologically-Inspired MoE Architecture for High-Performance Inference on Consumer Edge Hardware.*
+- **Feedback Memory Logic:** Inspired by *arXiv:2603.12091*.
+- **Decentralized Multi-Agent Coordination:** Inspired by *arXiv:2603.12096*.
 
 ---
 

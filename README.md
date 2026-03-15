@@ -1,6 +1,17 @@
 # 🧠 MitoCore-AI: The Organic Intelligence Engine
 > **"Unlocking High-Performance AI on Consumer Hardware via Bio-Inspired Synergy."**
 
+---
+
+> [!IMPORTANT]
+> ### 💡 THE PARADIGM SHIFT: BEYOND MONOLITHIC AI
+> **This project is more than just a tool—it is a proof-of-concept for a new way of thinking about intelligence.** 
+> While we provide a working design and benchmarks, we invite you to focus on the **APPROACH and IDEAS** behind MitoCore-AI. 
+>
+> We propose that **Intelligence Density** (Intelligence per Watt/VRAM) is achieved not through bigger models, but through **Organic Synergy**. The true value here is the insight that SLMs can be orchestrated as cellular organelles to transcend their individual limitations. Use this code to gain new perspectives on how to build resilient, sovereign, and decentralized AI systems on the edge.
+
+---
+
 MitoCore-AI is a next-generation **Organic Mixture-of-Experts (MoE)** framework designed to extract maximum intelligence from low-spec hardware (optimized for **8GB VRAM**). 
 
 ![MitoCore-AI Hero Image](./mitocore_ai_hero.png)

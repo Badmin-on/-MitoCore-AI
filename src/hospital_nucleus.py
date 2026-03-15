@@ -1,94 +1,86 @@
-# hospital_nucleus.py
-# The Organic Brain of the Hospital Platform
-# Implements Feedback Memory and Decentralized Peer Coordination
-
 import asyncio
 import json
 import time
+import logging
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
+from profiler import HardwareProfiler
 
+# @service[MitoCoreNucleus] layer:BACKEND
 app = FastAPI(title="MitoCore-AI: Organic Intelligence Engine")
 
-# --- vLLM-Inspired Global State ---
-class FeedbackMemory:
-    """Sliding window memory for iterative refinement (arXiv:2603.12091)"""
-    def __init__(self, capacity=5):
-        self.memory = []
-        self.capacity = capacity
-
-    def add(self, result):
-        self.memory.append(result)
-        if len(self.memory) > self.capacity:
-            self.memory.pop(0)
-
-    def get_context(self):
-        return "\n".join([f"Previous Attempt: {m}" for m in self.memory])
-
-memory = FeedbackMemory()
-
-# --- Model Configuration (8GB Guard) ---
-MODELS = {
-    "nucleus": "llama3.2:1b",
-    "logic": "phi3.5:latest",
-    "translator": "exaone3.5:2.4b",
-    "context": "qwen2.5:1.5b"
-}
+# Enable CORS for frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Query(BaseModel):
     text: str
-    stream: bool = False
 
+class SystemState:
+    def __init__(self):
+        self.profile = HardwareProfiler.get_hardware_profile()
+        self.active_models = HardwareProfiler.get_optimal_models(self.profile["tier"])
+        self.is_custom = False
+
+state = SystemState()
+
+# @fn[ollama_call]
 async def ollama_call(model, prompt):
-    """Simulates vLLM PagedAttention logic via Ollama (Sequential for 8GB safety)"""
-    url = "http://localhost:11434/api/generate"
-    payload = {"model": model, "prompt": prompt, "stream": False}
     try:
-        response = requests.post(url, json=payload, timeout=120)
-        return response.json().get("response", "")
+        response = requests.post(
+            "http://localhost:11434/api/generate",
+            json={"model": model, "prompt": prompt, "stream": False},
+            timeout=30
+        )
+        return response.json().get("response", "No response content.")
     except Exception as e:
         return f"Error connecting to {model}: {str(e)}"
 
-# --- Organic Routing (CTDE-Inspired) ---
+@app.get("/status")
+async def get_status():
+    return {
+        "profile": state.profile,
+        "models": state.active_models,
+        "is_custom": state.is_custom
+    }
+
+@app.post("/config/models")
+async def update_models(new_models: dict):
+    state.active_models.update(new_models)
+    state.is_custom = True
+    return {"status": "success", "active_models": state.active_models}
+
 @app.post("/diagnose")
 async def diagnose(query: Query):
     start_time = time.time()
+    models = state.active_models
     
-    # 1. Translator Input (Exaone) - Korean Nuance
-    translation_prompt = f"환자의 다음 설명을 전문적인 의료 용어와 정확한 문맥으로 정제하라: {query.text}"
-    refined_text = await ollama_call(MODELS["translator"], translation_prompt)
+    # 1. Translator Input (Exaone)
+    t_prompt = f"환자의 다음 설명을 전문적인 의료 용어와 정확한 문맥으로 정제하라: {query.text}"
+    refined_text = await ollama_call(models.get("Matrix", "exaone3.5:2.4b"), t_prompt)
     
-    # 2. Logic Verification (Phi-3.5) - Medical Guardrail
-    logic_prompt = f"다음 의료 정제 텍스트에서 논리적 오류나 위험 요소를 검토하라: {refined_text}"
-    logic_report = await ollama_call(MODELS["logic"], logic_prompt)
+    # 2. Logic Verification (Phi-3.5)
+    l_prompt = f"다음 의료 정제 텍스트에서 논리적 오류나 위험 요소를 검토하라: {refined_text}"
+    logic_report = await ollama_call(models.get("Synth", "phi3.5:latest"), l_prompt)
     
-    # 3. Nucleus Synthesis (Llama-3.2) - Final Decision
-    nucleus_prompt = f"""
-    [System Feedback Memory]
-    {memory.get_context()}
+    # 3. Nucleus Synthesis (Llama-3.2)
+    n_prompt = f"의료 정제 텍스트 {refined_text}와 논리 검토 {logic_report}를 바탕으로 최종 조언을 작성하라."
+    final_advisory = await ollama_call(models.get("Cortex", "llama3.2:1b"), n_prompt)
     
-    [Refined Text]
-    {refined_text}
+    latency = round(time.time() - start_time, 2)
     
-    [Logic Audit]
-    {logic_report}
-    
-    위 정보를 종합하여 사령관(Alex)을 위한 최종 의료 전략 보고서를 작성하라.
-    """
-    final_output = await ollama_call(MODELS["nucleus"], nucleus_prompt)
-    
-    # Add to Feedback Memory for next turn
-    memory.add(final_output[:200] + "...")
-    
-    latency = time.time() - start_time
     return {
-        "status": "success",
-        "result": final_output,
+        "result": final_advisory,
         "metadata": {
-            "latency": f"{latency:.2f}s",
-            "cells_active": ["translator", "logic", "nucleus"],
-            "vram_strategy": "neighbor_based_coordination"
+            "latency": f"{latency}s",
+            "tier": state.profile["tier"],
+            "models_used": models
         }
     }
 

@@ -4,22 +4,36 @@
 
 Write-Host "🏥 Initializing Organic Hospital AI Platform Setup..." -ForegroundColor Cyan
 
-# 1. Hardware & Environment Check
-$mem = Get-CimInstance Win32_OperatingSystem | Select-Object TotalVisibleMemorySize, FreePhysicalMemory
+# 1. Hardware & Environment Intelligence Check
+Write-Host "[+] Running Hardware Diagnostics..."
+$mem = Get-CimInstance Win32_OperatingSystem | Select-Object TotalVisibleMemorySize
 $totalRAM = [math]::Round($mem.TotalVisibleMemorySize / 1MB)
-Write-Host "[+] Detected Total RAM: $totalRAM GB"
+Write-Host "    - System RAM: $totalRAM GB"
+
+try {
+    $smiOutput = & nvidia-smi --query-gpu=name,memory.total --format=csv,noheader,nounits
+    $gpuInfo = $smiOutput.Split(',')
+    Write-Host "    - GPU Detected: $($gpuInfo[0]) with $($gpuInfo[1].Trim()) MB VRAM" -ForegroundColor Green
+} catch {
+    Write-Warning "    - No NVIDIA GPU detected or nvidia-smi failed. System will fallback to CPU processing (Severe performance degradation expected)."
+}
 
 if ($totalRAM -lt 8) {
     Write-Warning "[-] Warning: Less than 8GB RAM detected. Mitochondrial Failure (OOM) is likely."
 }
 
-# 2. Model Provisioning (Ollama)
-Write-Host "[+] Provisioning Quad-Cell Models via Ollama..." -ForegroundColor Yellow
-$models = @("llama3.2:1b", "phi3.5:latest", "exaone3.5:2.4b", "qwen2.5:1.5b")
+# 2. Model Provisioning (Smart Cache Check)
+Write-Host "[+] Provisioning Core Cellular Models..." -ForegroundColor Yellow
+$requiredModels = @("llama3.2:1b", "phi3.5:latest", "exaone3.5:2.4b", "qwen2.5:1.5b")
+$installedModels = (ollama list) | ForEach-Object { ($_ -split '\s+')[0] }
 
-foreach ($model in $models) {
-    Write-Host "    > Pulling $model..."
-    ollama pull $model
+foreach ($model in $requiredModels) {
+    if ($installedModels -contains $model) {
+        Write-Host "    [✓] $model is already installed in neural synthesis." -ForegroundColor Green
+    } else {
+        Write-Host "    [↓] Pulling missing model: $model..." -ForegroundColor Cyan
+        ollama pull $model
+    }
 }
 
 # 3. Python Environment Setup

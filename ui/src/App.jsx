@@ -192,26 +192,41 @@ const App = () => {
             </div>
           ))}
 
-          {/* Neural Progression Status (Inline) */}
+          {/* Neural Progression Status (Inline Signaling System) */}
           {currentStep && (
             <div className="message-wrapper">
               <div className="message-avatar ai-avatar">
                 <Brain size={18} className="text-black" />
               </div>
-              <div className="message-content">
-                <div className="font-mono text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-3 font-bold">MitoCore Nucleus</div>
-                <div className="neural-status-indicator">
-                  <div className={`status-dot ${currentStep === 'Matrix' ? 'text-white' : ''}`}>
-                    <div className={`dot ${currentStep === 'Matrix' ? 'active' : ''} ${currentStep !== 'Matrix' && currentStep !== null ? 'bg-cyan-500 shadow-[0_0_8px_cyan]' : ''}`} />
-                    <span>MATRIX_EXTRACT</span>
+              <div className="message-content w-full max-w-2xl">
+                <div className="font-mono text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold flex items-center justify-between">
+                  <span>MitoCore Nucleus</span>
+                  <span className="text-cyan-500 animate-pulse">ESTABLISHING SYNAPSE...</span>
+                </div>
+                
+                <div className="neural-pipeline-container">
+                  <div className="pipeline-track" />
+                  <div className="pipeline-fill overflow-hidden relative" style={{ 
+                    width: currentStep === 'Matrix' ? '10%' : currentStep === 'Synth' ? '50%' : currentStep === 'Cortex' ? '90%' : '100%' 
+                  }}>
+                     <div className="data-stream" />
                   </div>
-                  <div className={`status-dot ${currentStep === 'Synth' ? 'text-white' : ''}`}>
-                    <div className={`dot ${currentStep === 'Synth' ? 'active' : ''} ${messages.length > 0 && currentStep === 'Cortex' ? 'bg-cyan-500 shadow-[0_0_8px_cyan]' : ''}`} />
-                    <span>SYNTH_VERIFY</span>
-                  </div>
-                  <div className={`status-dot ${currentStep === 'Cortex' ? 'text-white' : ''}`}>
-                    <div className={`dot ${currentStep === 'Cortex' ? 'active' : ''}`} />
-                    <span>CORTEX_FUSION</span>
+                  
+                  <div className="neural-status-indicator mt-4">
+                    <div className={`status-node ${currentStep === 'Matrix' ? 'text-cyan-300' : 'text-gray-500'}`}>
+                      <div className={`dot ${currentStep === 'Matrix' ? 'active' : 'completed'}`} />
+                      <span>[1] MATRIX</span>
+                    </div>
+                    
+                    <div className={`status-node ${currentStep === 'Synth' ? 'text-cyan-300' : currentStep === 'Cortex' ? 'text-gray-500' : 'text-gray-700'}`}>
+                      <div className={`dot ${currentStep === 'Synth' ? 'active' : currentStep === 'Cortex' ? 'completed' : ''}`} />
+                      <span>[2] SYNTH</span>
+                    </div>
+                    
+                    <div className={`status-node ${currentStep === 'Cortex' ? 'text-cyan-300' : 'text-gray-700'}`}>
+                      <div className={`dot ${currentStep === 'Cortex' ? 'active' : ''}`} />
+                      <span>[3] CORTEX</span>
+                    </div>
                   </div>
                 </div>
               </div>

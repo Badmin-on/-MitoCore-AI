@@ -275,42 +275,100 @@ body {
 }
 .send-btn:active { transform: scale(0.95); }
 
-/* Neural Pulse Indicators */
-.neural-status-indicator {
-  font-size: 0.7rem;
-  color: var(--text-secondary);
-  display: flex;
-  gap: 1.5rem;
-  margin-top: 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+/* Neural Pulse & Signaling Pipeline */
+.neural-pipeline-container {
+  position: relative;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  padding: 0 4px;
 }
 
-.status-dot {
+.pipeline-track {
+  position: absolute;
+  top: 4px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 0;
+}
+
+.pipeline-fill {
+  position: absolute;
+  top: 4px;
+  left: 12px;
+  height: 1px;
+  background: var(--cyan-accent);
+  z-index: 1;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px var(--cyan-accent), 0 0 20px var(--cyan-accent);
+}
+
+.neural-status-indicator {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
   display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.status-node {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
+  background: var(--bg-chat); /* Hide track behind text */
+  padding: 0 8px;
+  transition: color 0.3s;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: var(--border-subtle);
+  background: #222;
+  border: 1px solid var(--border-subtle);
   transition: all 0.3s ease;
+  position: relative;
+}
+
+.dot.completed {
+  background: var(--cyan-accent);
+  border-color: var(--cyan-accent);
+  box-shadow: 0 0 12px var(--cyan-accent);
 }
 
 .dot.active {
   background: var(--cyan-accent);
-  box-shadow: 0 0 12px var(--cyan-accent);
-  animation: neuralPulse 1.2s infinite ease-in-out;
+  border-color: var(--text-primary);
+  box-shadow: 0 0 15px var(--cyan-accent);
+  animation: signalPulse 1s infinite alternate;
 }
 
-@keyframes neuralPulse {
-  0% { transform: scale(0.8); opacity: 0.5; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(0.8); opacity: 0.5; }
+@keyframes signalPulse {
+  0% { transform: scale(0.9); box-shadow: 0 0 10px var(--cyan-accent); }
+  100% { transform: scale(1.4); box-shadow: 0 0 25px var(--cyan-accent), 0 0 40px rgba(6, 182, 212, 0.5); }
+}
+
+/* Data Stream Animation */
+.data-stream {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.8), transparent);
+  animation: streamScan 2s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes streamScan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* Custom Scrollbar */

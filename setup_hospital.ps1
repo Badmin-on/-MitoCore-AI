@@ -37,10 +37,9 @@ Write-Host "[+] Preparing vLLM-Inspired Orchestration Layer..." -ForegroundColor
 
 # 5. UI Initialization (Vite + React)
 Write-Host "[+] Initializing Premium Medical UI..." -ForegroundColor Yellow
-if (-not (Test-Path "ui/package.json")) {
+if (-not (Test-Path "ui/node_modules")) {
     Set-Location ui
-    # npx -y create-vite@latest ./ --template react
-    # npm install
+    npm install
     Set-Location ..
 }
 
